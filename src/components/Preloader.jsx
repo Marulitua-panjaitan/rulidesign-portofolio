@@ -1,94 +1,107 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { Rocket } from 'lucide-react';
 
 const Preloader = ({ finishLoading }) => {
-  const [text, setText] = useState('');
-  const [showCursor, setShowCursor] = useState(true);
-  
-  const logs = [
-    "> INITIALIZING SYSTEM...",
-    "> ACCESSING SECURE_SERVER_BATAM_ID",
-    "> LOADING INDUSTRIAL_LOGIC.EXE",
-    "> AUTHENTICATING: MARULI_TUA_PANJAITAN",
-    "> STATUS: ENCRYPTED ACCESS GRANTED",
-    "> STARTING RULIDESIGN_OS...",
-    "> [ SYSTEM BOOT COMPLETED ]"
-  ];
+  const [progress, setProgress] = useState(0);
 
   useEffect(() => {
-    let currentLog = 0;
-    let currentChar = 0;
-    
-    // PERCEPATAN: Kecepatan ketik ditingkatkan (15ms)
-    const interval = setInterval(() => {
-      if (currentLog < logs.length) {
-        if (currentChar < logs[currentLog].length) {
-          setText(prev => prev + logs[currentLog][currentChar]);
-          currentChar++;
-        } else {
-          setText(prev => prev + '\n');
-          currentLog++;
-          currentChar = 0;
+    // Kecepatan loading: 2.5 detik sampai 100%
+    const timer = setInterval(() => {
+      setProgress((prev) => {
+        if (prev >= 100) {
+          clearInterval(timer);
+          setTimeout(finishLoading, 500); // Tunggu sebentar sebelum landing ke Home
+          return 100;
         }
-      } else {
-        clearInterval(interval);
-        // PERCEPATAN: Delay penutupan dikurangi menjadi 800ms
-        setTimeout(finishLoading, 800); 
-      }
-    }, 15); 
+        return prev + 1;
+      });
+    }, 25);
 
-    return () => clearInterval(interval);
+    return () => clearInterval(timer);
   }, [finishLoading]);
 
-  useEffect(() => {
-    const cursorInterval = setInterval(() => setShowCursor(c => !c), 400);
-    return () => clearInterval(cursorInterval);
-  }, []);
-
   return (
-    <motion.div 
-      // PERCEPATAN: Durasi exit dipercepat menjadi 0.6s
-      exit={{ y: '-100%', opacity: 0 }}
-      transition={{ duration: 0.6, ease: [0.45, 0, 0.55, 1] }}
-      className="fixed inset-0 z-[9999] bg-[#03050c] flex items-center justify-center p-6 font-mono"
+    <motion.div
+      exit={{ opacity: 0, scale: 1.1 }}
+      transition={{ duration: 0.8, ease: "easeInOut" }}
+      className="fixed inset-0 z-[9999] bg-[#03050c] flex flex-col items-center justify-center overflow-hidden"
     >
-      <div className="max-w-xl w-full">
-        {/* Kontainer Terminal */}
-        <div className="bg-white/[0.02] border border-white/10 rounded-xl p-8 backdrop-blur-md shadow-2xl relative overflow-hidden">
-          <div className="flex gap-2 mb-6">
-            <div className="w-3 h-3 rounded-full bg-red-500/40" />
-            <div className="w-3 h-3 rounded-full bg-yellow-500/40" />
-            <div className="w-3 h-3 rounded-full bg-green-500/40 shadow-[0_0_10px_rgba(34,197,94,0.5)]" />
-          </div>
-          
-          <div className="text-blue-500 text-sm md:text-base leading-relaxed whitespace-pre-wrap">
-            {text}
-            {showCursor && <span className="inline-block w-2 h-5 bg-blue-500 ml-1 translate-y-1" />}
-          </div>
-
-          {/* Animasi teks SUCCESSFUL */}
-          {text.includes("COMPLETED") && (
-            <motion.div 
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              className="mt-4 text-green-400 font-bold tracking-[0.3em] text-xs animate-pulse"
-            >
-              CONNECTION ESTABLISHED: SUCCESSFUL
-            </motion.div>
-          )}
-        </div>
-        
-        {/* Progress Bar */}
-        <div className="mt-6 w-full h-1 bg-white/5 rounded-full overflow-hidden">
-          <motion.div 
-            initial={{ width: 0 }}
-            animate={{ width: '100%' }}
-            // PERCEPATAN: Progress bar disinkronkan menjadi 2 detik
-            transition={{ duration: 2, ease: "linear" }}
-            className="h-full bg-blue-600 shadow-[0_0_15px_rgba(37,99,235,0.8)]"
+      {/* BACKGROUND PARTICLES (Star Field Effect) */}
+      <div className="absolute inset-0 pointer-events-none">
+        {[...Array(20)].map((_, i) => (
+          <motion.div
+            key={i}
+            initial={{ y: -10, x: Math.random() * window.innerWidth }}
+            animate={{ y: window.innerHeight + 100 }}
+            transition={{
+              duration: Math.random() * 1 + 0.5,
+              repeat: Infinity,
+              ease: "linear",
+              delay: Math.random() * 2
+            }}
+            className="absolute w-[1px] h-20 bg-gradient-to-b from-blue-500/0 via-blue-500/50 to-white/0"
           />
+        ))}
+      </div>
+
+      {/* ROCKET CONTAINER */}
+      <div className="relative">
+        {/* Efek Api/Thrust Mesin */}
+        <motion.div
+          animate={{ 
+            scale: [1, 1.5, 1],
+            opacity: [0.5, 0.8, 0.5]
+          }}
+          transition={{ duration: 0.2, repeat: Infinity }}
+          className="absolute -bottom-10 left-1/2 -translate-x-1/2 w-8 h-20 bg-blue-500 blur-2xl rounded-full"
+        />
+
+        {/* Rocket Icon dengan efek getar mesin */}
+        <motion.div
+          animate={{ 
+            y: [0, -2, 0, 2, 0],
+            x: [0, 1, 0, -1, 0]
+          }}
+          transition={{ duration: 0.1, repeat: Infinity }}
+          className="text-white relative z-10"
+        >
+          <Rocket size={80} strokeWidth={1.5} className="fill-blue-500/20" />
+        </motion.div>
+      </div>
+
+      {/* TEXT AREA */}
+      <div className="mt-12 text-center">
+        <motion.h2 
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="text-white font-mono text-xl tracking-[0.5em] font-bold uppercase"
+        >
+          MENUJU COSMIC
+        </motion.h2>
+        
+        {/* Progress Text */}
+        <div className="mt-2 font-mono text-blue-500 text-sm tracking-widest">
+          {progress}% <span className="animate-pulse">_</span>
         </div>
       </div>
+
+      {/* INDUSTRIAL PROGRESS BAR */}
+      <div className="mt-8 w-64 h-[2px] bg-white/5 rounded-full overflow-hidden relative">
+        <motion.div 
+          className="absolute inset-0 bg-gradient-to-r from-transparent via-blue-500 to-white"
+          style={{ width: `${progress}%` }}
+        />
+      </div>
+
+      {/* Overlay Glow saat hampir selesai */}
+      {progress > 80 && (
+        <motion.div 
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 0.3 }}
+          className="absolute inset-0 bg-blue-600 blur-[150px] pointer-events-none"
+        />
+      )}
     </motion.div>
   );
 };
