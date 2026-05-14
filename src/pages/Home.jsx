@@ -61,7 +61,7 @@ const Home = () => {
 
       {/* 4. Tombol Aksi */}
       <motion.div variants={itemVariants} className="flex flex-col sm:flex-row gap-6 justify-center items-center z-10">
-        <Link to="/contact">
+        <Link to="/services">
           <motion.button 
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
