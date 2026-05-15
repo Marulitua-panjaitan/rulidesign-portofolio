@@ -1,11 +1,11 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { Github, ExternalLink, ShoppingBag, Map, Image as ImageIcon, Code2, Target } from 'lucide-react';
-
+import { LineChart, TrendingUp } from "lucide-react";
 const Portfolio = () => {
   const projects = [
     {
-      title: "Mora E-Commerce",
+      title: "Mora E-Commerce (Debug)",
       category: "Fullstack Development",
       desc: "Platform e-commerce modern dengan fitur manajemen produk, keranjang belanja, dan sistem pembayaran yang terintegrasi.",
       tech: ["React", "Node.js", "Tailwind", "Express"],
@@ -33,6 +33,16 @@ const Portfolio = () => {
       icon: <Map size={20} />,
       link: "https://tobatrip.vercel.app/",
       github: "https://github.com/Marulitua-panjaitan/tobatrip"
+    },
+    {
+      title: "Smart Market Tracker",
+      category: "Web Development & Real-Time Engineering",
+      desc: "Aplikasi pelacak pasar mutakhir yang dibangun dengan Next.js 15 dan TypeScript untuk menyajikan data harga kripto.",
+      tech: ["Next.js", "TypeScript", "Tailwind CSS"],
+      image: "https://images.unsplash.com/photo-1590283603385-17ffb3a7f29f?fm=jpg&q=60&w=3000&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MjB8fGNyeXB0b3xlbnwwfHwwfHx8MA%3D%3D", // Placeholder travel
+      icon: <LineChart size={20} />,
+      link: "https://cryptotracker-sage-mu.vercel.app/",
+      github: "https://github.com/Marulitua-panjaitan/CryptoTracker"
     }
   ];
 
