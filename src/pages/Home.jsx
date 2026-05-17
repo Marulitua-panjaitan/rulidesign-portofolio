@@ -45,9 +45,9 @@ const Home = () => {
         variants={itemVariants}
         className="text-center text-6xl md:text-8xl font-bold tracking-tight leading-[0.9] mb-8 text-white z-10"
       >
-        The Industrial <br />
+        Professional Web Designer <br />
         <span className="bg-gradient-to-r from-blue-400 via-white to-purple-500 bg-clip-text text-transparent italic">
-          Developer.
+          & Developer.
         </span>
       </motion.h1>
 
@@ -56,8 +56,7 @@ const Home = () => {
         variants={itemVariants}
         className="max-w-2xl mx-auto text-center text-gray-400 text-lg md:text-xl mb-12 leading-relaxed font-light z-10"
       >
-        Membangun sistem digital dengan presisi manufaktur. Berfokus pada skalabilitas, efisiensi, dan desain yang tangguh.
-      </motion.p>
+        Membangun website modern, responsive, cepat, dan premium menggunakan teknologi terbaru. Berbasis di Batam, Indonesia.      </motion.p>
 
       {/* 4. Tombol Aksi */}
       <motion.div variants={itemVariants} className="flex flex-col sm:flex-row gap-6 justify-center items-center z-10">
